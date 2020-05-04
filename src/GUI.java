@@ -52,13 +52,7 @@ public class GUI extends JFrame implements ActionListener {
         send.getActionMap().put("sendMessage", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                try {
-                    DataOutputStream output = new DataOutputStream(client.getSocket().getOutputStream());
-                    output.writeUTF(protocol.data(client.getUsername(), textField.getText()));
-                    textField.setText("");
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
+                sendMessages();
             }
         });
     }
@@ -97,16 +91,19 @@ public class GUI extends JFrame implements ActionListener {
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
-
         }
         if (e.getSource() == send){
-            try {
-                DataOutputStream output = new DataOutputStream(client.getSocket().getOutputStream());
-                output.writeUTF(protocol.data(client.getUsername(), textField.getText()));
-                textField.setText("");
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
+            sendMessages();
+        }
+    }
+
+    private void sendMessages() {
+        try {
+            DataOutputStream output = new DataOutputStream(client.getSocket().getOutputStream());
+            output.writeUTF(protocol.data(client.getUsername(), textField.getText()));
+            textField.setText("");
+        } catch (IOException ex) {
+            ex.printStackTrace();
         }
     }
 }
