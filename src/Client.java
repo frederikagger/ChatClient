@@ -17,18 +17,18 @@ public class Client {
         try {
             this.gui = gui;
             this.socket = new Socket(ip, port); // establish a connection
-            System.out.println("Connected");
-            this.send = new Send(this.socket, this);
-            this.listen = new Listen(this.socket, this.gui);
-            this.ip = ip;
-            this.port = port;
-            executor = Executors.newFixedThreadPool(2);
-            executor.execute(send);
-            executor.execute(listen);
-            executor.shutdown();
         } catch (IOException e){
-            e.printStackTrace();
+            new Client(ip, port, gui);
         }
+        System.out.println("Connected");
+        this.send = new Send(this.socket, this);
+        this.listen = new Listen(this.socket, this.gui);
+        this.ip = ip;
+        this.port = port;
+        executor = Executors.newFixedThreadPool(2);
+        executor.execute(send);
+        executor.execute(listen);
+        executor.shutdown();
     }
 
     public Socket getSocket() {
